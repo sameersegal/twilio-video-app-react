@@ -105,7 +105,7 @@ export default function MenuBar() {
             )}
             <TextField
               id="menu-room"
-              label="Room"
+              label="OTP"
               className={classes.textField}
               value={roomName}
               onChange={handleRoomNameChange}
@@ -118,7 +118,7 @@ export default function MenuBar() {
               variant="contained"
               disabled={isConnecting || !name || !roomName || isFetching}
             >
-              Join Room
+              Join Call
             </Button>
             {(isConnecting || isFetching) && <CircularProgress className={classes.loadingSpinner} />}
           </form>
@@ -128,7 +128,7 @@ export default function MenuBar() {
         <div className={classes.leftButtonContainer}>
           <LocalAudioLevelIndicator />
           <ToggleFullscreenButton />
-          <Menu />
+          {/* <Menu /> */}
         </div>
       </Toolbar>
     </AppBar>
