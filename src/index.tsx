@@ -5,6 +5,7 @@ import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import App from './App';
+import AppVerify from './AppVerify';
 import AppStateProvider, { useAppState } from './state';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectOptions } from 'twilio-video';
@@ -14,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import theme from './theme';
 import './types';
 import { VideoProvider } from './components/VideoProvider';
+import AgentApp from './components/AgentApp/AgentApp';
 
 // See: https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/docs/global.html#ConnectOptions
 // for available connection options.
@@ -46,6 +48,17 @@ const VideoApp = () => {
   );
 };
 
+const AgentVerifyApp = () => {
+  const { error, setError } = useAppState();
+
+  return (
+    <VideoProvider options={connectionOptions} onError={setError}>
+      <ErrorDialog dismissError={() => setError(null)} error={error} />
+      <AppVerify />
+    </VideoProvider>
+  );
+};
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
@@ -57,6 +70,12 @@ ReactDOM.render(
           </PrivateRoute>
           <PrivateRoute path="/call/:URLRoomName">
             <VideoApp />
+          </PrivateRoute>
+          <PrivateRoute path="/list">
+            <AgentApp />
+          </PrivateRoute>
+          <PrivateRoute path="/verify/:URLRoomName">
+            <AgentVerifyApp />
           </PrivateRoute>
           <Route path="/login">
             <LoginPage />

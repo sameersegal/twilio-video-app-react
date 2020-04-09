@@ -3,39 +3,25 @@ var fs = require('fs');
 
 var access_token = fs.readFileSync('access_token');
 
+var request = require('request');
+var fs = require('fs');
 var options = {
   'method': 'POST',
-  'hostname': 'staging-app.zestmoney.in',
-  'path': '/zest-ai/api/ocr',
+  'url': 'http://staging-app.zestmoney.in/zest-ai/api/ocr',
   'headers': {
-    'Authorization': 'Bearer ' + access_token,
-    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+    'Authorization': ['Bearer ' + access_token]
   },
-  'maxRedirects': 20
+  formData: {
+    'pan': {
+      'value': fs.createReadStream('0ed57798-38a3-4049-952b-b23cdf271ae0_poi.jpg'),
+      'options': {
+        'filename': '0ed57798-38a3-4049-952b-b23cdf271ae0_poi.jpg',
+        'contentType': null
+      }
+    }
+  }
 };
-
-var req = http.request(options, function (res) {
-  var chunks = [];
-
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
-  res.on("end", function (chunk) {
-    var body = Buffer.concat(chunks);
-    console.log(body.toString());
-  });
-
-  res.on("error", function (error) {
-    console.error(error);
-  });
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
 });
-
-var postData = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"pan\"; filename=\"0ed57798-38a3-4049-952b-b23cdf271ae0_poi.jpg\"\r\nContent-Type: \"{Insert_File_Content_Type}\"\r\n\r\n" + fs.readFileSync('0ed57798-38a3-4049-952b-b23cdf271ae0_poi.jpg') + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--";
-
-req.setHeader('content-type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW');
-
-req.write(postData);
-
-req.end();
-
