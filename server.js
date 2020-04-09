@@ -24,6 +24,11 @@ app.get('/token', (req, res) => {
   console.log(`issued token for ${identity} in room ${roomName}`);
 });
 
+app.post('/orc', (req, res) => {  
+  res.send();
+  console.log(`received image`);
+});
+
 app.get('*', (_, res) => res.sendFile(path.join(__dirname, 'build/index.html')));
 
 app.listen(8081, () => console.log('token server running on 8081'));

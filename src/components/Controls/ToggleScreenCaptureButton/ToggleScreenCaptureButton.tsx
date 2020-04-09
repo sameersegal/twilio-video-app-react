@@ -10,10 +10,10 @@ import useScreenShareToggle from '../../../hooks/useScreenShareToggle/useScreenS
 import useScreenShareParticipant from '../../../hooks/useScreenShareParticipant/useScreenShareParticipant';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 
-export const SCREEN_SHARE_TEXT = 'Share Screen';
-export const STOP_SCREEN_SHARE_TEXT = 'Stop Sharing Screen';
-export const SHARE_IN_PROGRESS_TEXT = 'Cannot share screen when another user is sharing';
-export const SHARE_NOT_SUPPORTED_TEXT = 'Screen sharing is not supported with this browser';
+export const SCREEN_CAPTURE_TEXT = 'Capture Photo';
+export const STOP_SCREEN_CAPTURE_TEXT = 'Stop Capturing Photo';
+export const CAPTURE_IN_PROGRESS_TEXT = 'Cannot capture photo when another user is sharing';
+export const CAPTURE_NOT_SUPPORTED_TEXT = 'Capture photo is not supported with this browser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,18 +36,18 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
   const isScreenShareSupported = navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia;
   const isDisabled = props.disabled || disableScreenShareButton || !isScreenShareSupported;
 
-  let tooltipMessage = SCREEN_SHARE_TEXT;
+  let tooltipMessage = SCREEN_CAPTURE_TEXT;
 
   if (isScreenShared) {
-    tooltipMessage = STOP_SCREEN_SHARE_TEXT;
+    tooltipMessage = STOP_SCREEN_CAPTURE_TEXT;
   }
 
   if (disableScreenShareButton) {
-    tooltipMessage = SHARE_IN_PROGRESS_TEXT;
+    tooltipMessage = CAPTURE_IN_PROGRESS_TEXT;
   }
 
   if (!isScreenShareSupported) {
-    tooltipMessage = SHARE_NOT_SUPPORTED_TEXT;
+    tooltipMessage = CAPTURE_NOT_SUPPORTED_TEXT;
   }
 
   return (
