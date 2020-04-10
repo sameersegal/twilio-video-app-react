@@ -19,19 +19,21 @@ export default function useScreenShareToggle() {
   const shareScreen = useCallback(() => {
     getLocalVideoTrack().then((track: LocalVideoTrack) => {
       //const stream = new MediaStream();
-      track.attach();
+      //track.attach();
       //stream.addTrack(track.mediaStreamTrack.clone());
       //video.current.hidden = true;
       //video.current.srcObject = stream;
       canvas.current.width = 200;
       canvas.current.height = 200;
       var context = canvas.current.getContext('2d');
-      if (context === null) {
-        return;
-      }
-      context.drawImage(track.attach(), 0, 0, 200, 200);
-      var data = canvas.current.toDataURL('image/png');
-      document.body.append(canvas.current);
+      track.attach().addEventListener('canplaythrough', function() {
+        if (context === null) {
+          return;
+        }
+        context.drawImage(track.attach(), 0, 0, 200, 200);
+        var data = canvas.current.toDataURL('image/png');
+        document.body.append(canvas.current);
+      });
     });
   }, [room, onError]);
 
