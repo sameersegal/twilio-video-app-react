@@ -2,11 +2,11 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Fab from '@material-ui/core/Fab';
-import ScreenShare from '@material-ui/icons/AddAPhoto';
+import ImageCapture from '@material-ui/icons/AddAPhoto';
 import StopScreenShare from '@material-ui/icons/AddAPhotoOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import useScreenShareToggle from '../../../hooks/useScreenShareToggle/useScreenShareToggle';
+import useImageCaptureToggle from '../../../hooks/useImageCaptureToggle/useImageCaptureToggle';
 import useScreenShareParticipant from '../../../hooks/useScreenShareParticipant/useScreenShareParticipant';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
   const classes = useStyles();
-  const [isScreenShared, toggleScreenShare] = useScreenShareToggle();
+  const [captureImage] = useImageCaptureToggle();
   const screenShareParticipant = useScreenShareParticipant();
   const { room } = useVideoContext();
   const disableScreenShareButton = screenShareParticipant && screenShareParticipant !== room.localParticipant;
@@ -37,18 +37,6 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
   const isDisabled = props.disabled || disableScreenShareButton || !isScreenShareSupported;
 
   let tooltipMessage = SCREEN_CAPTURE_TEXT;
-
-  if (isScreenShared) {
-    tooltipMessage = STOP_SCREEN_CAPTURE_TEXT;
-  }
-
-  if (disableScreenShareButton) {
-    tooltipMessage = CAPTURE_IN_PROGRESS_TEXT;
-  }
-
-  if (!isScreenShareSupported) {
-    tooltipMessage = CAPTURE_NOT_SUPPORTED_TEXT;
-  }
 
   return (
     <Tooltip
@@ -60,8 +48,8 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
       <div>
         {/* The div element is needed because a disabled button will not emit hover events and we want to display
           a tooltip when screen sharing is disabled */}
-        <Fab className={classes.fab} onClick={toggleScreenShare} disabled={isDisabled}>
-          {isScreenShared ? <StopScreenShare /> : <ScreenShare />}
+        <Fab className={classes.fab} onClick={captureImage} disabled={isDisabled}>
+          <ImageCapture />
         </Fab>
       </div>
     </Tooltip>
