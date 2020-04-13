@@ -19,7 +19,6 @@ const Main = styled('main')({
   height: '100%',
   position: 'relative',
 });
-
 export default function App() {
   const roomState = useRoomState();
 
@@ -29,6 +28,8 @@ export default function App() {
       <Main>
         {roomState === 'disconnected' ? <LocalVideoPreview /> : <Room />}
         <Controls />
+        <canvas id="imageCapturePreview" height="50%" width="50%"></canvas>
+        <h3 id="ocrResponse"></h3>
       </Main>
       <ReconnectingNotification />
     </Container>
