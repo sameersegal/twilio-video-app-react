@@ -48,7 +48,7 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
       <div>
         {/* The div element is needed because a disabled button will not emit hover events and we want to display
           a tooltip when screen sharing is disabled */}
-        <Fab className={classes.fab} onClick={captureImage} disabled={isDisabled}>
+        <Fab id="imageCapture" className={classes.fab} onClick={captureImage} disabled={isDisabled}>
           <ImageCapture />
         </Fab>
       </div>

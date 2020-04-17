@@ -8,6 +8,7 @@ import ReconnectingNotification from './components/ReconnectingNotification/Reco
 import Room from './components/Room/Room';
 
 import useRoomState from './hooks/useRoomState/useRoomState';
+import { ExtendButtonBase, FabTypeMap } from '@material-ui/core';
 
 const Container = styled('div')({
   display: 'flex',
@@ -21,7 +22,13 @@ const Main = styled('main')({
 });
 export default function App() {
   const roomState = useRoomState();
-
+  //const screenCaptureButton = document.getElementById('imageCapture');
+  // window.addEventListener('message', (e)=>{
+  //   if(e.data=='captureScreen'){
+  //     console.log('it works');
+  //     screenCaptureButton?.click();
+  //   }
+  // });
   return (
     <Container>
       <MenuBar />

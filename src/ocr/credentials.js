@@ -1,8 +1,3 @@
-var https = require('follow-redirects').https;
-var fs = require('fs');
-
-var qs = require('querystring');
-
 var options = {
   method: 'POST',
   hostname: 'staging-auth.zestmoney.in',
@@ -10,34 +5,12 @@ var options = {
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
-  maxRedirects: 20,
+  body:
+    'client_id=84802e3f-7fde-4eea-914e-b9e70bdfc26f&grant_type=client_credentials&scope=internal_services&client_secret=PoToY%25DwGY7Bh%7BU%5Bt6%5DM',
 };
 
-var req = https.request(options, function(res) {
-  var chunks = [];
-
-  res.on('data', function(chunk) {
-    chunks.push(chunk);
-  });
-
-  res.on('end', function(chunk) {
-    var body = JSON.parse(Buffer.concat(chunks).toString());
-    fs.writeFileSync('access_token', body['access_token']);
-    console.log(body['access_token']);
-  });
-
-  res.on('error', function(error) {
-    console.error(error);
-  });
-});
-
-var postData = qs.stringify({
-  client_id: '84802e3f-7fde-4eea-914e-b9e70bdfc26f',
-  client_secret: 'PoToY%DwGY7Bh{U[t6]M',
-  grant_type: 'client_credentials',
-  scope: 'internal_services',
-});
-
-req.write(postData);
-
-req.end();
+export default async function getAccessToken() {
+  let resp = await fetch('https://staging-auth.zestmoney.in/connect/token/', options);
+  let respJson = await resp.json();
+  return respJson.access_token;
+}
